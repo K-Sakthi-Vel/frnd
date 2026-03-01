@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dosth💜</title>
+
+<style>
+/* ===============================
+   GLOBAL STYLES
+=================================*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e79fd2, #bb93dd, #7dcfff);
+  overflow: hidden;
+  color: white;
+}
+
+/* Floating blurred background circles */
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  animation: floatBg 12s infinite alternate ease-in-out;
+}
+
+.bg1 { width: 300px; height: 300px; background: #9d4edd; top: 10%; left: 10%; }
+.bg2 { width: 250px; height: 250px; background: #c77dff; bottom: 10%; right: 10%; animation-delay: 3s; }
+.bg3 { width: 200px; height: 200px; background: #7b2cbf; bottom: 30%; left: 30%; animation-delay: 6s; }
+
+@keyframes floatBg {
+  from { transform: translateY(-30px); }
+  to { transform: translateY(20px); }
+}
+
+/* Glass card */
+.card {
+  position: relative;
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.1);
+  padding: 50px 60px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  animation: floatCard 2s ease-in-out infinite;
+  transition: 0.5s;
+}
+
+@keyframes floatCard {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.yes-btn {
+  background: #c77dff;
+  color: white;
+}
+
+.yes-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #e0aaff;
+}
+
+.no-btn {
+  background: #5a189a;
+  color: white;
+  position: relative;
+}
+
+.no-btn:hover {
+  transform: scale(0.5s);
+}
+
+/* Celebration */
+.success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.5s forwards;
+}
+
+.success h2 {
+  margin-top: 20px;
+  font-size: 1.8rem;
+}
+
+.hug {
+  font-size: 5rem;
+  animation: pop 0.6s ease forwards;
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: floatUp 1s linear forwards;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 2; }
+  to { transform: translateY(-300px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Circles -->
+<div class="bg-circle bg1"></div>
+<div class="bg-circle bg2"></div>
+<div class="bg-circle bg3"></div>
+
+<div class="card" id="card">
+  <div id="question">
+    <h1>Will U Be My Dosth Forever?... 😁</h1>
+    <div class="buttons">
+      <button class="yes-btn" onclick="sayYes()">yes 🥰</button>
+      <button class="no-btn" id="noBtn">mudiyadhu po da😈</button>
+    </div>
+  </div>
+
+  <div class="success" id="success">
+    <div class="hug">
+    <img src="cd.gif" alt="awwww ">
+    <h2>aadiney erupa😁😂💜</h2>
+  </div>
+</div>
+
+<script>
+// ================================
+// Funny No Button Behavior
+// ================================
+const noBtn = document.getElementById("noBtn");
+const noTexts = [
+  "ye daaaaa? 🥲",
+  "dei....?? 😭",
+  "velakenna😏",
+  "yes solra meiru 😤",
+  "paal bun😭"
+];
+
+let noIndex = 0;
+
+// Make No button move randomly on hover
+noBtn.addEventListener("mouseover", () => {
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// Change text when clicked
+noBtn.addEventListener("click", () => {
+  noBtn.textContent = noTexts[noIndex % noTexts.length];
+  noIndex++;
+  beep();
+});
+
+// ================================
+// YES Button Celebration
+// ================================
+function sayYes() {
+  document.querySelector(".buttons").style.display = "none";
+  document.getElementById("success").style.display = "flex";
+  createHearts();
+  beep();
+}
+
+// Create floating hearts
+function createHearts() {
+  for (let i = 0; i < 20; i++) {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "💜";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = window.innerHeight - 50 + "px";
+    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 3000);
+  }
+}
+
+// Simple beep sound
+function beep() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = ctx.createOscillator();
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+  oscillator.connect(ctx.destination);
+  oscillator.start();
+  oscillator.stop(ctx.currentTime + 0.1);
+}
+</script>
+
+</body>
+</html>
